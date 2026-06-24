@@ -1279,3 +1279,50 @@ body.dark-mode .companion-status-card h3 {
     height: 62px !important;
   }
 }
+/* ================= CHAT PAGE FINAL FIX ================= */
+
+/* Desktop / Laptop */
+.chat-v2 {
+  width: min(920px, calc(100% - 28px)) !important;
+  height: calc(100vh - 105px) !important;
+  margin: 18px auto 95px !important;
+  border-radius: 30px !important;
+}
+
+.chat-v2-header {
+  flex-shrink: 0 !important;
+}
+
+.chat-v2-box {
+  flex: 1 !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+}
+
+.chat-v2-input {
+  flex-shrink: 0 !important;
+}
+
+/* Android / Mobile */
+@media (max-width: 768px) {
+  .chat-v2 {
+    width: 100% !important;
+    height: calc(100vh - 56px) !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .chat-v2-header {
+    padding: 10px 12px !important;
+  }
+
+  .chat-v2-box {
+    padding: 12px !important;
+  }
+
+  .chat-v2-input {
+    padding: 8px !important;
+  }
+}
