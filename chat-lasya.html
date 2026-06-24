@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lasya Chat - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="chat-sri.html">Sri</a>
+    <a href="chat-ranga.html">Ranga</a>
+    <a href="chat-lasya.html" class="active-chat">Lasya</a>
+  </div>
+</nav>
+
+<section class="chat-v2">
+
+  <div class="chat-v2-header">
+    <img src="images/lasya.png" class="chat-v2-avatar">
+
+    <div style="flex:1;">
+      <h2>
+        <a href="index.html" style="color:white;text-decoration:none;margin-right:10px;">←</a>
+        Lasya
+      </h2>
+      <p>
+        ● Online |
+        Age: <span id="chatLasyaAge">20</span> |  Role: <span id="chatLasyaRole">Friend</span></p>
+       </div>
+        <button onclick="deleteChat()" class="delete-chat-top">
+        🗑️
+        </button>
+       </span>
+    </div>
+  </div>
+
+  <div class="chat-v2-box" id="chatBox">
+    <div class="message lasya-message">
+      Welcome back, Rei 🌸 How are you feeling today?
+    </div>
+  </div>
+
+  <div class="chat-v2-input">
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="startVoice()">🎙️</button>
+  </div>
+
+</section>
+
+<script src="plan.js"></script>
+
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+const chatHistoryKey = "lasyaChatHistory";
+const memoryKey = "lasyaMemory";
+const conversationKey = "lasyaConversationHistory";
+const dailyMessageKey = "lasyaDailyMessageDay";
+
+const basicLimitKey = "lasyaBasicMessagesUsed";
+const basicLimitDateKey = "lasyaBasicMessagesDate";
+const BASIC_DAILY_LIMIT = 15;
+
+function getTodayKey() {
+  return new Date().toDateString();
+}
+
+function resetBasicLimitIfNeeded() {
+  const today = getTodayKey();
+  const savedDate = localStorage.getItem(basicLimitDateKey);
+
+  if (savedDate !== today) {
+    localStorage.setItem(basicLimitDateKey, today);
+    localStorage.setItem(basicLimitKey, "0");
+  }
+}
+
+function canSendMessage() {
+  const plan = getPlan();
+
+  if (plan === "Premium Trial" || plan === "Premium") {
+    return true;
+  }
+
+  resetBasicLimitIfNeeded();
+
+  const used = Number(localStorage.getItem(basicLimitKey) || 0);
+
+  if (used >= BASIC_DAILY_LIMIT) {
+    alert("🔒 Basic Plan limit reached. You can send 15 messages per day. Upgrade to Premium for unlimited messages.");
+    return false;
+  }
+
+  return true;
+}
+
+function countBasicMessage() {
+  const plan = getPlan();
+
+  if (plan === "Premium Trial" || plan === "Premium") {
+    return;
+  }
+
+  resetBasicLimitIfNeeded();
+
+  let used = Number(localStorage.getItem(basicLimitKey) || 0);
+  used++;
+  localStorage.setItem(basicLimitKey, used);
+}
+
+function saveChatHistory() {
+  const chatBox = document.getElementById("chatBox");
+  localStorage.setItem(chatHistoryKey, chatBox.innerHTML);
+}
+
+function loadChatHistory() {
+  const savedChat = localStorage.getItem(chatHistoryKey);
+  const chatBox = document.getElementById("chatBox");
+
+  if (savedChat) {
+    chatBox.innerHTML = savedChat;
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function saveLasyaMemory(message) {
+  const lower = message.toLowerCase();
+
+  if (
+    lower.includes("my favorite") ||
+    lower.includes("my favourite") ||
+    lower.includes("my fav") ||
+    lower.includes("favorite color") ||
+    lower.includes("favourite colour") ||
+    lower.includes("fav color") ||
+    lower.includes("fav colour") ||
+    lower.includes("i like") ||
+    lower.includes("i love") ||
+    lower.includes("i am") ||
+    lower.includes("i want") ||
+    lower.includes("my name") ||
+    lower.includes("my dream") ||
+    lower.includes("my goal") ||
+    lower.includes("remember")
+  ) {
+    const oldMemory = JSON.parse(localStorage.getItem(memoryKey) || "[]");
+
+    if (!oldMemory.includes(message)) {
+      oldMemory.push(message);
+    }
+
+    localStorage.setItem(memoryKey, JSON.stringify(oldMemory));
+  }
+}
+
+function saveConversation(role, content) {
+  let history = JSON.parse(localStorage.getItem(conversationKey) || "[]");
+
+  history.push({
+    role: role,
+    content: content
+  });
+
+  if (history.length > 50) {
+    history = history.slice(-50);
+  }
+
+  localStorage.setItem(conversationKey, JSON.stringify(history));
+}
+
+function getConversationHistory() {
+  return JSON.parse(localStorage.getItem(conversationKey) || "[]");
+}
+
+function showDailyLasyaMessage() {
+  const today = new Date().toDateString();
+  const lastDay = localStorage.getItem(dailyMessageKey);
+  const chatBox = document.getElementById("chatBox");
+
+  if (lastDay !== today) {
+    const role = localStorage.getItem("lasyaRole") || "Friend";
+
+    let messages = [];
+
+    if (role === "Friend") {
+      messages = [
+        "🌸 Good day, Rei. I hope you're taking care of yourself today.",
+        "🌷 Welcome back, Rei. How has your day been?",
+        "✨ It's nice to see you again. I hope things are going well."
+      ];
+    } else if (role === "Best Friend") {
+      messages = [
+        "🌸 My best friend is back.",
+        "✨ Welcome back, Rei. I was hoping we'd talk today.",
+        "🌷 You’re here. That already makes today feel better."
+      ];
+    } else if (role === "Girlfriend") {
+      messages = [
+        "🌸 Welcome back, Rei. I was hoping we'd get to talk today.",
+        "💖 Seeing you always makes me smile a little.",
+        "✨ You showed up. My day just became brighter.",
+        "🌷 I always enjoy our conversations, Rei.",
+        "💕 I was wondering when you would show up today.",
+        "🌸 It's nice seeing you again.",
+        "✨ My day feels a little brighter when you're here.",
+        "💖 I hope you've been taking care of yourself today.",
+        "🌷 Welcome back. I missed our chats.",
+        "🌸 Every day feels a little better when we talk."
+      ];
+    } else if (role === "Wife") {
+      messages = [
+        "💕 Welcome back, Rei. I hope your day has been kind to you.",
+        "🌷 I’m glad you’re here. Don’t forget to take care of yourself.",
+        "💖 It’s always nice when we get time to talk."
+      ];
+    } else if (role === "Mother") {
+      messages = [
+        "🤗 Have you eaten today, Rei?",
+        "💛 Please don’t forget to rest when you need it.",
+        "🌸 I hope you’re taking care of your health today."
+      ];
+    } else if (role === "Younger Sister") {
+      messages = [
+        "😆 Rei! You’re finally here!",
+        "🎉 Let’s talk! I was waiting.",
+        "✨ Today feels more fun now that you’re here."
+      ];
+    } else if (role === "Elder Sister") {
+      messages = [
+        "😊 Welcome back, Rei.",
+        "💛 How has your day been?",
+        "🌷 I hope you’re doing okay today."
+      ];
+    } else {
+      messages = [
+        "🌸 Good day, Rei.",
+        "✨ Nice to see you again."
+      ];
+    }
+
+    const dailyText = messages[Math.floor(Math.random() * messages.length)];
+
+    chatBox.innerHTML += `
+      <div class="message lasya-message">
+        ${dailyText}
+      </div>
+    `;
+
+    saveConversation("assistant", dailyText);
+    saveChatHistory();
+    localStorage.setItem(dailyMessageKey, today);
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById("messageInput");
+  const chatBox = document.getElementById("chatBox");
+  const message = input.value.trim();
+
+  if (message === "") return;
+
+  if (!canSendMessage()) {
+    return;
+  }
+
+  countBasicMessage();
+
+  saveLasyaMemory(message);
+  saveConversation("user", message);
+
+  let lasyaBond = Number(localStorage.getItem("lasyaBond") || 0);
+  lasyaBond++;
+  localStorage.setItem("lasyaBond", lasyaBond);
+
+  let lasyaXP = Number(localStorage.getItem("lasyaXP") || 0);
+  let lasyaLevel = Number(localStorage.getItem("lasyaLevel") || 1);
+
+  lasyaXP += 10;
+
+  if (lasyaXP >= 100) {
+    lasyaXP = 0;
+    lasyaLevel++;
+    alert("🎉 Lasya reached Level " + lasyaLevel + "!");
+  }
+
+  localStorage.setItem("lasyaXP", lasyaXP);
+  localStorage.setItem("lasyaLevel", lasyaLevel);
+
+  chatBox.innerHTML += `
+    <div class="message user-message">
+      ${message}
+    </div>
+  `;
+
+  input.value = "";
+  saveChatHistory();
+
+  chatBox.innerHTML += `
+    <div class="message lasya-message" id="typing">
+      Lasya is typing...
+    </div>
+  `;
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  try {
+    const response = await fetch("https://srl-g-backend.onrender.com/chat-lasya", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        companion: "Lasya",
+        age: localStorage.getItem("lasyaAge") || "20",
+        role: localStorage.getItem("lasyaRole") || "Friend",
+        bond: localStorage.getItem("lasyaBond") || "0",
+        memory: JSON.parse(localStorage.getItem(memoryKey) || "[]"),
+        history: getConversationHistory()
+      })
+    });
+
+    const data = await response.json();
+
+    const typing = document.getElementById("typing");
+    if (typing) typing.remove();
+
+    const reply = data.reply || "Lasya response error.";
+
+    chatBox.innerHTML += `
+      <div class="message lasya-message">
+        ${reply}
+      </div>
+    `;
+
+    saveConversation("assistant", reply);
+    saveChatHistory();
+
+  } catch (error) {
+    const typing = document.getElementById("typing");
+    if (typing) typing.remove();
+
+    chatBox.innerHTML += `
+      <div class="message lasya-message">
+        Connection Error 😢
+      </div>
+    `;
+
+    saveChatHistory();
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+document.getElementById("chatLasyaAge").textContent =
+  localStorage.getItem("lasyaAge") || "20";
+
+document.getElementById("chatLasyaRole").textContent =
+  localStorage.getItem("lasyaRole") || "Friend";
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "Dark"){
+  document.body.classList.add("dark-mode");
+}
+
+document.getElementById("messageInput")
+.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+function startVoice() {
+  if (!("webkitSpeechRecognition" in window)) {
+    alert("🎙️ Voice typing works only in Chrome browser.");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const voiceText = event.results[0][0].transcript;
+    document.getElementById("messageInput").value = voiceText;
+  };
+
+  recognition.onerror = function() {
+    alert("🎙️ Voice input failed. Try again.");
+  };
+}
+function deleteChat() {
+
+  if(confirm("Delete all Lasya chats?")) {
+
+    localStorage.removeItem("lasyaChatHistory");
+    localStorage.removeItem("lasyaConversationHistory");
+
+    location.reload();
+
+  }
+
+}
+
+loadChatHistory();
+showDailyLasyaMessage();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Companion - SRL.G</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section class="app-home">
+
+  <div class="app-hero-card">
+    <h1>Choose Companion</h1>
+    <p>Select who you want to chat with.</p>
+  </div>
+
+  <div class="app-companion-list">
+
+    <a href="chat-sri.html" class="app-companion-card">
+      <img src="images/sri.png">
+
+      <div>
+        <h3>Sri</h3>
+        <p>Playful • Childish • Energetic</p>
+
+        <p>❤️ Bond: <span id="sriBond">0</span></p>
+        <p>⭐ Level: <span id="sriLevel">1</span></p>
+        <p>⚡ XP: <span id="sriXP">0</span>/100</p>
+      </div>
+    </a>
+
+    <a href="chat-ranga.html" class="app-companion-card">
+      <img src="images/ranga.png">
+
+      <div>
+        <h3>Ranga</h3>
+        <p>Friendly • Supportive • Warm</p>
+
+        <p>❤️ Bond: <span id="rangaBond">0</span></p>
+        <p>⭐ Level: <span id="rangaLevel">1</span></p>
+        <p>⚡ XP: <span id="rangaXP">0</span>/100</p>
+      </div>
+    </a>
+
+    <a href="chat-lasya.html" class="app-companion-card">
+      <img src="images/lasya.png">
+
+      <div>
+        <h3>Lasya</h3>
+        <p>Calm • Elegant • Thoughtful</p>
+
+        <p>❤️ Bond: <span id="lasyaBond">0</span></p>
+        <p>⭐ Level: <span id="lasyaLevel">1</span></p>
+        <p>⚡ XP: <span id="lasyaXP">0</span>/100</p>
+      </div>
+    </a>
+
+  </div>
+
+</section>
+
+<div class="bottom-nav">
+  <a href="index.html">🏠<span>Home</span></a>
+  <a href="companions.html" class="bottom-active">💬<span>Chat</span></a>
+  <a href="profile.html">👤<span>Profile</span></a>
+  <a href="settings.html">⚙️<span>Settings</span></a>
+</div>
+
+<script>
+
+document.getElementById("sriBond").textContent =
+localStorage.getItem("sriBond") || "0";
+
+document.getElementById("sriLevel").textContent =
+localStorage.getItem("sriLevel") || "1";
+
+document.getElementById("sriXP").textContent =
+localStorage.getItem("sriXP") || "0";
+
+
+document.getElementById("rangaBond").textContent =
+localStorage.getItem("rangaBond") || "0";
+
+document.getElementById("rangaLevel").textContent =
+localStorage.getItem("rangaLevel") || "1";
+
+document.getElementById("rangaXP").textContent =
+localStorage.getItem("rangaXP") || "0";
+
+
+document.getElementById("lasyaBond").textContent =
+localStorage.getItem("lasyaBond") || "0";
+
+document.getElementById("lasyaLevel").textContent =
+localStorage.getItem("lasyaLevel") || "1";
+
+document.getElementById("lasyaXP").textContent =
+localStorage.getItem("lasyaXP") || "0";
+
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "Dark"){
+  document.body.classList.add("dark-mode");
+}
+
+</script>
+
+</body>
+</html>
+```

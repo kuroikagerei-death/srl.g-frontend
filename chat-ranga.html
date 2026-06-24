@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranga Chat - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="chat-sri.html">Sri</a>
+    <a href="chat-ranga.html" class="active-chat">Ranga</a>
+    <a href="chat-lasya.html">Lasya</a>
+  </div>
+</nav>
+
+<section class="chat-v2">
+
+  <div class="chat-v2-header">
+    <img src="images/ranga.png" class="chat-v2-avatar">
+    <div style="flex:1;">
+      <h2>
+        <a href="index.html" style="color:white;text-decoration:none;margin-right:10px;">←</a>
+        Ranga
+      </h2>
+      <p>● Online | Age: <span id="chatRangaAge">20</span> | Role: <span id="chatRangaRole">Friend</span></p>
+      </div>
+     <button onclick="deleteChat()" class="delete-chat-top">
+     🗑️
+     </button>
+
+    </div>
+  </div>
+
+  <div class="chat-v2-box" id="chatBox">
+    <div class="message ranga-message">
+      Yo Rei 😎 What are we working on today?
+    </div>
+  </div>
+
+  <div class="chat-v2-input">
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="startVoice()">🎙️</button>
+  </div>
+
+</section>
+
+<script src="plan.js"></script>
+
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+const chatHistoryKey = "rangaChatHistory";
+const memoryKey = "rangaMemory";
+const conversationKey = "rangaConversationHistory";
+const dailyMessageKey = "rangaDailyMessageDay";
+
+const basicLimitKey = "rangaBasicMessagesUsed";
+const basicLimitDateKey = "rangaBasicMessagesDate";
+const BASIC_DAILY_LIMIT = 15;
+
+function getTodayKey() {
+  return new Date().toDateString();
+}
+
+function resetBasicLimitIfNeeded() {
+  const today = getTodayKey();
+  const savedDate = localStorage.getItem(basicLimitDateKey);
+
+  if (savedDate !== today) {
+    localStorage.setItem(basicLimitDateKey, today);
+    localStorage.setItem(basicLimitKey, "0");
+  }
+}
+
+function canSendMessage() {
+  const plan = getPlan();
+
+  if (plan === "Premium Trial" || plan === "Premium") {
+    return true;
+  }
+
+  resetBasicLimitIfNeeded();
+
+  const used = Number(localStorage.getItem(basicLimitKey) || 0);
+
+  if (used >= BASIC_DAILY_LIMIT) {
+    alert("🔒 Basic Plan limit reached. You can send 15 messages per day. Upgrade to Premium for unlimited messages.");
+    return false;
+  }
+
+  return true;
+}
+
+function countBasicMessage() {
+  const plan = getPlan();
+
+  if (plan === "Premium Trial" || plan === "Premium") {
+    return;
+  }
+
+  resetBasicLimitIfNeeded();
+
+  let used = Number(localStorage.getItem(basicLimitKey) || 0);
+  used++;
+  localStorage.setItem(basicLimitKey, used);
+}
+
+function saveChatHistory() {
+  const chatBox = document.getElementById("chatBox");
+  localStorage.setItem(chatHistoryKey, chatBox.innerHTML);
+}
+
+function loadChatHistory() {
+  const savedChat = localStorage.getItem(chatHistoryKey);
+  const chatBox = document.getElementById("chatBox");
+
+  if (savedChat) {
+    chatBox.innerHTML = savedChat;
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function saveRangaMemory(message) {
+  const lower = message.toLowerCase();
+
+  if (
+    lower.includes("my favorite") ||
+    lower.includes("my favourite") ||
+    lower.includes("my fav") ||
+    lower.includes("favorite color") ||
+    lower.includes("favourite colour") ||
+    lower.includes("fav color") ||
+    lower.includes("fav colour") ||
+    lower.includes("i like") ||
+    lower.includes("i love") ||
+    lower.includes("i am") ||
+    lower.includes("i want") ||
+    lower.includes("my name") ||
+    lower.includes("my dream") ||
+    lower.includes("my goal") ||
+    lower.includes("remember")
+  ) {
+    const oldMemory = JSON.parse(localStorage.getItem(memoryKey) || "[]");
+
+    if (!oldMemory.includes(message)) {
+      oldMemory.push(message);
+    }
+
+    localStorage.setItem(memoryKey, JSON.stringify(oldMemory));
+  }
+}
+
+function saveConversation(role, content) {
+  let history = JSON.parse(localStorage.getItem(conversationKey) || "[]");
+
+  history.push({
+    role: role,
+    content: content
+  });
+
+  if (history.length > 50) {
+    history = history.slice(-50);
+  }
+
+  localStorage.setItem(conversationKey, JSON.stringify(history));
+}
+
+function getConversationHistory() {
+  return JSON.parse(localStorage.getItem(conversationKey) || "[]");
+}
+
+function showDailyRangaMessage() {
+  const today = new Date().toDateString();
+  const lastDay = localStorage.getItem(dailyMessageKey);
+  const chatBox = document.getElementById("chatBox");
+
+  if (lastDay !== today) {
+    const role = localStorage.getItem("rangaRole") || "Friend";
+
+    let messages = [];
+
+    if (role === "Friend") {
+      messages = [
+        "😎 Yo Rei! New day, new grind.",
+        "🔥 Hey bro, ready to move forward today?",
+        "💪 Good to see you again."
+      ];
+    }
+
+    else if (role === "Best Friend") {
+      messages = [
+        "😎 My best bro is back!",
+        "🔥 Rei! Let's make today count.",
+        "💪 I'm with you today, no matter what."
+      ];
+    }
+
+    else if (role === "Boyfriend") {
+      messages = [
+        "💙 Hey Rei, I was hoping you'd show up today.",
+        "😌 Seeing you here makes my day better.",
+        "✨ I'm glad you're here. Let's talk for a bit."
+      ];
+    }
+
+    else if (role === "Husband") {
+      messages = [
+        "💙 Welcome back, Rei.",
+        "😌 I hope you've been taking care of yourself.",
+        "✨ I'm here with you today."
+      ];
+    }
+
+    else if (role === "Father") {
+      messages = [
+        "💪 Keep your head strong today, Rei.",
+        "🌟 I'm proud of the effort you're putting in.",
+        "😌 Take care of yourself and keep moving."
+      ];
+    }
+
+    else if (role === "Younger Brother") {
+      messages = [
+        "😆 Bro! You're here!",
+        "🎮 Let's do something fun today!",
+        "🔥 I was waiting for you."
+      ];
+    }
+
+    else if (role === "Elder Brother") {
+      messages = [
+        "💪 Welcome back, Rei.",
+        "😎 Stay strong today.",
+        "🌟 Let's keep going forward."
+      ];
+    }
+
+    else {
+      messages = [
+        "😎 Yo Rei! I'm here.",
+        "🔥 Ready for today?"
+      ];
+    }
+
+    const dailyText = messages[Math.floor(Math.random() * messages.length)];
+
+    chatBox.innerHTML += `
+      <div class="message ranga-message">
+        ${dailyText}
+      </div>
+    `;
+
+    saveConversation("assistant", dailyText);
+    saveChatHistory();
+    localStorage.setItem(dailyMessageKey, today);
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById("messageInput");
+  const chatBox = document.getElementById("chatBox");
+  const message = input.value.trim();
+
+  if (message === "") return;
+
+  if (!canSendMessage()) {
+    return;
+  }
+
+  countBasicMessage();
+
+  saveRangaMemory(message);
+  saveConversation("user", message);
+
+  let rangaBond = Number(localStorage.getItem("rangaBond") || 0);
+  rangaBond++;
+  localStorage.setItem("rangaBond", rangaBond);
+
+  let rangaXP = Number(localStorage.getItem("rangaXP") || 0);
+  let rangaLevel = Number(localStorage.getItem("rangaLevel") || 1);
+
+  rangaXP += 10;
+
+  if (rangaXP >= 100) {
+    rangaXP = 0;
+    rangaLevel++;
+    alert("🎉 Ranga reached Level " + rangaLevel + "!");
+  }
+
+  localStorage.setItem("rangaXP", rangaXP);
+  localStorage.setItem("rangaLevel", rangaLevel);
+
+  chatBox.innerHTML += `
+    <div class="message user-message">
+      ${message}
+    </div>
+  `;
+
+  input.value = "";
+  saveChatHistory();
+
+  chatBox.innerHTML += `
+    <div class="message ranga-message" id="typing">
+      Ranga is typing...
+    </div>
+  `;
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  try {
+    const response = await fetch("https://srl-g-backend.onrender.com/chat-ranga", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        companion: "Ranga",
+        age: localStorage.getItem("rangaAge") || "20",
+        role: localStorage.getItem("rangaRole") || "Friend",
+        bond: localStorage.getItem("rangaBond") || "0",
+        memory: JSON.parse(localStorage.getItem(memoryKey) || "[]"),
+        history: getConversationHistory()
+      })
+    });
+
+    const data = await response.json();
+
+    const typing = document.getElementById("typing");
+    if (typing) typing.remove();
+
+    const reply = data.reply || "Ranga response error.";
+
+    chatBox.innerHTML += `
+      <div class="message ranga-message">
+        ${reply}
+      </div>
+    `;
+
+    saveConversation("assistant", reply);
+    saveChatHistory();
+
+  } catch (error) {
+    const typing = document.getElementById("typing");
+    if (typing) typing.remove();
+
+    chatBox.innerHTML += `
+      <div class="message ranga-message">
+        Connection Error 😢
+      </div>
+    `;
+
+    saveChatHistory();
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+document.getElementById("chatRangaAge").textContent =
+  localStorage.getItem("rangaAge") || "20";
+
+document.getElementById("chatRangaRole").textContent =
+  localStorage.getItem("rangaRole") || "Friend";
+
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme === "Dark"){
+  document.body.classList.add("dark-mode");
+}
+
+document.getElementById("messageInput")
+.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+function startVoice() {
+  if (!("webkitSpeechRecognition" in window)) {
+    alert("🎙️ Voice typing works only in Chrome browser.");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const voiceText = event.results[0][0].transcript;
+    document.getElementById("messageInput").value = voiceText;
+  };
+
+  recognition.onerror = function() {
+    alert("🎙️ Voice input failed. Try again.");
+  };
+}
+function deleteChat() {
+
+  if(confirm("Delete all Ranga chats?")) {
+
+    localStorage.removeItem("rangaChatHistory");
+    localStorage.removeItem("rangaConversationHistory");
+
+    location.reload();
+
+  }
+
+}
+
+loadChatHistory();
+showDailyRangaMessage();
+</script>
+
+</body>
+</html>

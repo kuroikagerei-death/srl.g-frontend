@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="login.html" class="login-btn">Login</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h2>SRL.G Premium</h2>
+  <p>Unlock the complete SRL.G experience.</p>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Basic</h3>
+      <h4>₹0 / Month</h4>
+
+      <p>15 messages per day</p>
+      <p>Chat with Sri, Ranga & Lasya</p>
+      <p>Limited memory</p>
+      <p>Fixed roles after trial</p>
+      <p>Bond, XP & Levels</p>
+    </div>
+
+    <div class="card premium">
+      <span class="badge">7-DAY FREE TRIAL</span>
+
+      <h3>Premium Trial</h3>
+      <h4>Free</h4>
+
+      <p>Unlimited messages</p>
+      <p>Change companion roles</p>
+      <p>Change companion ages</p>
+      <p>Voice typing</p>
+      <p>Full memory features</p>
+      <a href="signup.html"><button>Start Free Trial</button></a>
+    </div>
+
+    <div class="card premium">
+      <span class="badge">MOST POPULAR</span>
+
+      <h3>Premium</h3>
+      <h4>₹1999 / Month</h4>
+
+      <p>Unlimited messages</p>
+      <p>Unlimited role changes</p>
+      <p>Unlimited age changes</p>
+      <p>Advanced memory</p>
+      <p>Voice typing</p>
+      <p>Future premium features</p>
+
+      <button onclick="premiumComingSoon()">
+        Upgrade Now
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+function premiumComingSoon(){
+  alert("Premium payment system coming soon.");
+}
+</script>
+
+<script>
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "Dark") {
+  document.body.classList.add("dark-mode");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SRL.G</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <section class="app-home">
+
+    <div class="app-hero-card">
+      <h1>SRL.G</h1>
+      <p class="app-tagline">Three minds. One connection.</p>
+
+      <p class="app-subtext">
+        AI companions built for conversations, memory, bond, and emotional support in Telugu and English.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="signup.html"><button>Start 7-Day Trial</button></a>
+        <a href="login.html"><button>Login</button></a>
+        <a href="profile.html"><button>My Profile</button></a>
+      </div>
+    </div>
+
+    <h2 id="companions" class="section-title">Choose Your Companion</h2>
+
+    <div class="app-companion-list">
+
+      <a href="sri.html" class="app-companion-card">
+        <img src="images/sri.png" alt="Sri">
+        <div>
+          <h3>Sri</h3>
+          <p>Playful • Childish • Energetic</p>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="ranga.html" class="app-companion-card">
+        <img src="images/ranga.png" alt="Ranga">
+        <div>
+          <h3>Ranga</h3>
+          <p>Friendly • Supportive • Warm</p>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="lasya.html" class="app-companion-card">
+        <img src="images/lasya.png" alt="Lasya">
+        <div>
+          <h3>Lasya</h3>
+          <p>Calm • Elegant • Thoughtful</p>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+
+    <footer>
+      <p>© 2026 SRL.G</p>
+      <p>All characters are fictional AI companions.</p>
+    </footer>
+
+  </section>
+
+  <div class="bottom-nav">
+    <a href="index.html" class="bottom-active">🏠<span>Home</span></a>
+    <a href="companions.html">💬<span>Chat</span></a>
+    <a href="profile.html">👤<span>Profile</span></a>
+    <a href="premium.html">💎ᴠɪᴘ<span>Premium</span></a>
+    <a href="settings.html">⚙️<span>Settings</span></a>
+  </div>
+
+  <script src="plan.js"></script>
+  <script src="script.js"></script>
+
+<script>
+if (
+  localStorage.getItem("appLockPassword") &&
+  sessionStorage.getItem("appUnlocked") !== "true"
+) {
+  window.location.href = "lock.html";
+}
+
+if (!localStorage.getItem("appLockPassword")) {
+  window.location.href = "lock.html";
+}
+</script>
+
+  <script>
+    const savedTheme = localStorage.getItem("theme");
+
+    if(savedTheme === "Dark"){
+      document.body.classList.add("dark-mode");
+    }
+  </script>
+
+</body>
+</html>

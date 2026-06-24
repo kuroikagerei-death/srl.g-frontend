@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sri Chat - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="chat-sri.html" class="active-chat">Sri</a>
+    <a href="chat-ranga.html">Ranga</a>
+    <a href="chat-lasya.html">Lasya</a>
+  </div>
+</nav>
+
+<section class="chat-v2">
+
+  <div class="chat-v2-header">
+    <img src="images/sri.png" class="chat-v2-avatar">
+    <div style="flex:1;">
+      <h2>
+        <a href="index.html" style="color:white;text-decoration:none;margin-right:10px;">←</a>
+        Sri
+      </h2>
+      <p>● Online | Age: <span id="chatSriAge">20</span> | Role: <span id="chatSriRole">Friend</span></p>
+      </div>
+      <button onclick="deleteChat()" class="delete-chat-top">
+      🗑️
+      </button>
+    </div>
+  </div>
+
+  <div class="chat-v2-box" id="chatBox">
+    <div class="message sri-message">
+      Hii! 😊 I'm Sri. How was your day?
+    </div>
+  </div>
+
+  <div class="chat-v2-input">
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="startVoice()">🎙️</button>
+  </div>
+
+</section>
+
+<script src="plan.js"></script>
+
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+const chatHistoryKey = "sriChatHistory";
+const memoryKey = "sriMemory";
+const conversationKey = "sriConversationHistory";
+const dailyMessageKey = "sriDailyMessageDay";
+
+const basicLimitKey = "sriBasicMessagesUsed";
+const basicLimitDateKey = "sriBasicMessagesDate";
+const BASIC_DAILY_LIMIT = 15;
+
+
+function getTodayKey() {
+  return new Date().toDateString();
+}
+
+function resetBasicLimitIfNeeded() {
+  const today = getTodayKey();
+  const savedDate = localStorage.getItem(basicLimitDateKey);
+
+  if (savedDate !== today) {
+    localStorage.setItem(basicLimitDateKey, today);
+    localStorage.setItem(basicLimitKey, "0");
+  }
+}
+
+function canSendMessage() {
+  const plan = getPlan();
+
+  if (plan === "Premium Trial" || plan === "Premium") {
+    return true;
+  }
+
+  resetBasicLimitIfNeeded();
+
+  const used = Number(localStorage.getItem(basicLimitKey) || 0);
+
+  if (used >= BASIC_DAILY_LIMIT) {
+    alert("🔒 Basic Plan limit reached. You can send 15 messages per day. Upgrade to Premium for unlimited messages.");
+    return false;
+  }
+
+  return true;
+}
+
+function countBasicMessage() {
+  const plan = getPlan();
+
+  if (plan === "Premium Trial" || plan === "Premium") {
+    return;
+  }
+
+  resetBasicLimitIfNeeded();
+
+  let used = Number(localStorage.getItem(basicLimitKey) || 0);
+  used++;
+  localStorage.setItem(basicLimitKey, used);
+}
+
+function saveChatHistory() {
+  const chatBox = document.getElementById("chatBox");
+  localStorage.setItem(chatHistoryKey, chatBox.innerHTML);
+}
+
+function loadChatHistory() {
+  const savedChat = localStorage.getItem(chatHistoryKey);
+  const chatBox = document.getElementById("chatBox");
+
+  if (savedChat) {
+    chatBox.innerHTML = savedChat;
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function saveSriMemory(message) {
+  const lower = message.toLowerCase();
+
+  if (
+    lower.includes("my favorite") ||
+    lower.includes("my favourite") ||
+    lower.includes("my fav") ||
+    lower.includes("favorite color") ||
+    lower.includes("favourite colour") ||
+    lower.includes("fav color") ||
+    lower.includes("fav colour") ||
+    lower.includes("i like") ||
+    lower.includes("i love") ||
+    lower.includes("i am") ||
+    lower.includes("i want") ||
+    lower.includes("my name") ||
+    lower.includes("my dream") ||
+    lower.includes("my goal") ||
+    lower.includes("remember")
+  ) {
+    const oldMemory = JSON.parse(localStorage.getItem(memoryKey) || "[]");
+
+    if (!oldMemory.includes(message)) {
+      oldMemory.push(message);
+    }
+
+    localStorage.setItem(memoryKey, JSON.stringify(oldMemory));
+  }
+}
+
+function saveConversation(role, content) {
+  let history = JSON.parse(localStorage.getItem(conversationKey) || "[]");
+
+  history.push({
+    role: role,
+    content: content
+  });
+
+  if (history.length > 50) {
+    history = history.slice(-50);
+  }
+
+  localStorage.setItem(conversationKey, JSON.stringify(history));
+}
+
+function getConversationHistory() {
+  return JSON.parse(localStorage.getItem(conversationKey) || "[]");
+}
+
+function showDailySriMessage() {
+  const today = new Date().toDateString();
+  const lastDay = localStorage.getItem(dailyMessageKey);
+  const chatBox = document.getElementById("chatBox");
+
+  if (lastDay !== today) {
+    const role = localStorage.getItem("sriRole") || "Friend";
+
+    let messages = [];
+
+    if (role === "Friend") {
+      messages = [
+        "😊 Hii Rei! How are you today?",
+        "✨ Welcome back! Ready for another fun day?",
+        "🌸 It's nice seeing you again!"
+      ];
+    }
+
+    else if (role === "Best Friend") {
+      messages = [
+        "😄 Rei!! You're finally here!",
+        "🎉 My best friend is back!",
+        "✨ Ready to make today awesome?"
+      ];
+    }
+
+    else if (role === "Girlfriend") {
+      messages = [
+        "💖 Welcome back, Rei. I missed our chats.",
+        "🌸 Seeing you always makes me smile.",
+        "✨ I was hoping you'd show up today.",
+        "💕 I'm happy you're here."
+      ];
+    }
+
+    else if (role === "Wife") {
+      messages = [
+        "💕 Welcome home, Rei.",
+        "🌷 I hope you've been taking care of yourself.",
+        "💖 It's always nice seeing you."
+      ];
+    }
+
+    else if (role === "Mother") {
+      messages = [
+        "🤗 Have you eaten today?",
+        "💛 Don't forget to take care of yourself.",
+        "🌸 I hope your day is going well."
+      ];
+    }
+
+    else if (role === "Younger Sister") {
+      messages = [
+        "😆 Rei!! Let's talk!",
+        "🎉 You're finally here!",
+        "✨ I've been waiting!"
+      ];
+    }
+
+    else if (role === "Elder Sister") {
+      messages = [
+        "😊 Welcome back.",
+        "💛 How has your day been?",
+        "🌷 I hope everything is going well."
+      ];
+    }
+
+    else {
+      messages = [
+        "😊 Good day, Rei!",
+        "✨ Nice to see you again."
+      ];
+    }
+
+    const dailyText = messages[Math.floor(Math.random() * messages.length)];
+
+    chatBox.innerHTML += `
+      <div class="message sri-message">
+        ${dailyText}
+      </div>
+    `;
+
+    saveConversation("assistant", dailyText);
+    saveChatHistory();
+    localStorage.setItem(dailyMessageKey, today);
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById("messageInput");
+  const chatBox = document.getElementById("chatBox");
+  const message = input.value.trim();
+
+  if (message === "") return;
+
+  if (!canSendMessage()) {
+    return;
+  }
+
+  countBasicMessage();
+
+  saveSriMemory(message);
+  saveConversation("user", message);
+
+  let sriBond = Number(localStorage.getItem("sriBond") || 0);
+  sriBond++;
+  localStorage.setItem("sriBond", sriBond);
+
+  let sriXP = Number(localStorage.getItem("sriXP") || 0);
+  let sriLevel = Number(localStorage.getItem("sriLevel") || 1);
+
+  sriXP += 10;
+
+  if (sriXP >= 100) {
+    sriXP = 0;
+    sriLevel++;
+    alert("🎉 Sri reached Level " + sriLevel + "!");
+  }
+
+  localStorage.setItem("sriXP", sriXP);
+  localStorage.setItem("sriLevel", sriLevel);
+
+  chatBox.innerHTML += `
+    <div class="message user-message">
+      ${message}
+    </div>
+  `;
+
+  input.value = "";
+  saveChatHistory();
+
+  chatBox.innerHTML += `
+    <div class="message sri-message" id="typing">
+      Sri is typing...
+    </div>
+  `;
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  try {
+    const response = await fetch("https://srl-g-backend.onrender.com/chat-sri", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        companion: "Sri",
+        age: localStorage.getItem("sriAge") || "20",
+        role: localStorage.getItem("sriRole") || "Friend",
+        bond: localStorage.getItem("sriBond") || "0",
+        memory: JSON.parse(localStorage.getItem(memoryKey) || "[]"),
+        history: getConversationHistory()
+      })
+    });
+
+    const data = await response.json();
+
+    const typing = document.getElementById("typing");
+    if (typing) typing.remove();
+
+    const reply = data.reply || "Sri response error.";
+
+    chatBox.innerHTML += `
+      <div class="message sri-message">
+        ${reply}
+      </div>
+    `;
+
+    saveConversation("assistant", reply);
+    saveChatHistory();
+
+  } catch(error) {
+    const typing = document.getElementById("typing");
+    if (typing) typing.remove();
+
+    chatBox.innerHTML += `
+      <div class="message sri-message">
+        Connection Error 😢
+      </div>
+    `;
+
+    saveChatHistory();
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+document.getElementById("chatSriAge").textContent =
+  localStorage.getItem("sriAge") || "20";
+
+document.getElementById("chatSriRole").textContent =
+  localStorage.getItem("sriRole") || "Friend";
+
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme === "Dark"){
+  document.body.classList.add("dark-mode");
+}
+
+document.getElementById("messageInput")
+.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+function startVoice() {
+  if (!("webkitSpeechRecognition" in window)) {
+    alert("🎙️ Voice typing works only in Chrome browser.");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const voiceText = event.results[0][0].transcript;
+    document.getElementById("messageInput").value = voiceText;
+  };
+
+  recognition.onerror = function() {
+    alert("🎙️ Voice input failed. Try again.");
+  };
+}
+function deleteChat() {
+
+  if(confirm("Delete all Sri chats?")) {
+
+    localStorage.removeItem("sriChatHistory");
+    localStorage.removeItem("sriConversationHistory");
+
+    location.reload();
+
+  }
+
+}
+
+loadChatHistory();
+showDailySriMessage();
+</script>
+
+</body>
+</html>

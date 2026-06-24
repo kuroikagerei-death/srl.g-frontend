@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Choose Roles - SRL.G</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+</nav>
+
+<section class="roles-page">
+
+  <h2>Choose Your Companion Roles</h2>
+  <p>Set how each companion will interact with you.</p>
+
+  <div class="role-card">
+
+    <h3>Sri</h3>
+
+    <select id="sriRole">
+      <option>Friend</option>
+      <option>Best Friend</option>
+      <option>Younger Sister</option>
+      <option>Elder Sister</option>
+      <option>Mother</option>
+      <option>Wife</option>
+      <option>Daughter</option>
+      <option>Girlfriend</option>
+    </select>
+
+  </div>
+
+  <div class="role-card">
+
+    <h3>Ranga</h3>
+
+    <select id="rangaRole">
+      <option>Friend</option>
+      <option>Best Friend</option>
+      <option>Younger Brother</option>
+      <option>Elder Brother</option>
+      <option>Father</option>
+      <option>Husband</option>
+      <option>Son</option>
+      <option>Boyfriend</option>
+    </select>
+
+  </div>
+
+  <div class="role-card">
+
+    <h3>Lasya</h3>
+
+    <select id="lasyaRole">
+      <option>Friend</option>
+      <option>Best Friend</option>
+      <option>Younger Sister</option>
+      <option>Elder Sister</option>
+      <option>Mother</option>
+      <option>Wife</option>
+      <option>Daughter</option>
+      <option>Girlfriend</option>
+    </select>
+
+  </div>
+
+  <button onclick="saveRoles()" class="save-role-btn">
+    Continue
+  </button>
+
+</section>
+
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+
+function saveRoles(){
+
+  const sriRole =
+    document.getElementById("sriRole").value;
+
+  const rangaRole =
+    document.getElementById("rangaRole").value;
+
+  const lasyaRole =
+    document.getElementById("lasyaRole").value;
+
+  let wifeCount = 0;
+  let husbandCount = 0;
+
+  if (sriRole === "Wife") wifeCount++;
+  if (lasyaRole === "Wife") wifeCount++;
+
+  if (rangaRole === "Husband") husbandCount++;
+
+  if (wifeCount > 1) {
+    alert("Only one companion can be Wife.");
+    return;
+  }
+
+  if (husbandCount > 1) {
+    alert("Only one companion can be Husband.");
+    return;
+  }
+
+  localStorage.setItem("sriRole", sriRole);
+  localStorage.setItem("rangaRole", rangaRole);
+  localStorage.setItem("lasyaRole", lasyaRole);
+
+  window.location.href = "profile.html";
+}
+
+</script>
+
+</body>
+</html>

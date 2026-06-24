@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section class="game-profile">
+
+  <div class="profile-card">
+    <h2 id="profileUsername">User</h2>
+    <p class="rank">Level 1 Companion Master</p>
+
+    <div class="profile-info">
+      <p><strong>Plan:</strong> <span id="planStatus">Premium Trial</span></p>
+      <p><strong>Days Left:</strong> <span id="daysLeft">7</span></p>
+      <p><strong>Premium Price:</strong> ₹1999/month</p>
+    </div>
+
+    <div class="profile-info">
+      <h3>Your Current Features</h3>
+      <ul id="currentPlanFeatures"></ul>
+    </div>
+  </div>
+
+  <h2 class="team-title">Companion Team</h2>
+
+  <div class="companion-grid">
+
+    <div class="companion-card">
+      <img src="images/sri.png" alt="Sri">
+      <h3>Sri</h3>
+
+      <div class="companion-details">
+        <p><strong>Age</strong><select id="profileSriAge"></select></p>
+
+        <p>
+          <strong>Role</strong>
+          <select id="profileSriRole">
+            <option>Friend</option>
+            <option>Best Friend</option>
+            <option>Younger Sister</option>
+            <option>Elder Sister</option>
+            <option>Mother</option>
+            <option>Wife</option>
+            <option>Daughter</option>
+            <option>Girlfriend</option>
+          </select>
+        </p>
+
+        <p><strong>Bond</strong><span id="sriBond">0 ❤️ | New Companion 🌱</span></p>
+        <p><strong>Level</strong> <span id="sriLevel">1</span></p>
+        <p><strong>XP</strong> <span id="sriXP">0 / 100</span></p>
+      </div>
+
+      <a href="chat-sri.html">
+        <button>Chat with Sri</button>
+      </a>
+    </div>
+
+    <div class="companion-card">
+      <img src="images/ranga.png" alt="Ranga">
+      <h3>Ranga</h3>
+
+      <div class="companion-details">
+        <p><strong>Age</strong><select id="profileRangaAge"></select></p>
+
+        <p>
+          <strong>Role</strong>
+          <select id="profileRangaRole">
+            <option>Friend</option>
+            <option>Best Friend</option>
+            <option>Younger Brother</option>
+            <option>Elder Brother</option>
+            <option>Father</option>
+            <option>Husband</option>
+            <option>Son</option>
+            <option>Boyfriend</option>
+          </select>
+        </p>
+
+        <p><strong>Bond</strong><span id="rangaBond">0 ❤️ | New Companion 🌱</span></p>
+        <p><strong>Level</strong> <span id="rangaLevel">1</span></p>
+        <p><strong>XP</strong> <span id="rangaXP">0 / 100</span></p>
+      </div>
+
+      <a href="chat-ranga.html">
+        <button>Chat with Ranga</button>
+      </a>
+    </div>
+
+    <div class="companion-card">
+      <img src="images/lasya.png" alt="Lasya">
+      <h3>Lasya</h3>
+
+      <div class="companion-details">
+        <p><strong>Age</strong><select id="profileLasyaAge"></select></p>
+
+        <p>
+          <strong>Role</strong>
+          <select id="profileLasyaRole">
+            <option>Friend</option>
+            <option>Best Friend</option>
+            <option>Younger Sister</option>
+            <option>Elder Sister</option>
+            <option>Mother</option>
+            <option>Wife</option>
+            <option>Daughter</option>
+            <option>Girlfriend</option>
+          </select>
+        </p>
+
+        <p><strong>Bond</strong><span id="lasyaBond">0 ❤️ | New Companion 🌱</span></p>
+        <p><strong>Level</strong> <span id="lasyaLevel">1</span></p>
+        <p><strong>XP</strong> <span id="lasyaXP">0 / 100</span></p>
+      </div>
+
+      <a href="chat-lasya.html">
+        <button>Chat with Lasya</button>
+      </a>
+    </div>
+
+  </div>
+
+  <p id="premiumRoleNote" class="age-note"></p>
+  <button id="saveRolesBtn" onclick="saveProfileSettings()">Save Companion Settings</button>
+
+</section>
+
+<div class="bottom-nav">
+  <a href="index.html">🏠<span>Home</span></a>
+  <a href="companions.html">💬<span>Chat</span></a>
+  <a href="profile.html" class="bottom-active">👤<span>Profile</span></a>
+  <a href="settings.html">⚙️<span>Settings</span></a>
+</div>
+
+<script src="plan.js"></script>
+
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+function fillAgeOptions(id) {
+  const select = document.getElementById(id);
+  select.innerHTML = "";
+
+  for (let age = 16; age <= 100; age++) {
+    const option = document.createElement("option");
+    option.value = age;
+    option.textContent = age;
+    select.appendChild(option);
+  }
+}
+
+function getBondRank(bond) {
+  bond = Number(bond);
+
+  if (bond >= 10000) return "Unbreakable Bond ♾️";
+  if (bond >= 5000) return "Eternal Bond 🌌";
+  if (bond >= 2500) return "Soul Partner 💫";
+  if (bond >= 1000) return "Trusted Companion ⭐";
+  if (bond >= 500) return "Best Friend ❤️";
+  if (bond >= 100) return "Close Friend 🤝";
+  if (bond >= 10) return "Good Friend 🧡";
+  if (bond >= 5) return "Friend 😊"
+  return "New Companion 🤖";
+}
+
+function showBond(id, key) {
+  const bond = localStorage.getItem(key) || "0";
+  document.getElementById(id).textContent =
+    bond + " ❤️ | " + getBondRank(bond);
+}
+
+function showCurrentPlanFeatures(plan) {
+  const list = document.getElementById("currentPlanFeatures");
+
+  let features = [];
+
+  if (plan === "Premium Trial") {
+    features = [
+      "7-Day Premium Trial",
+      "Unlimited messages during trial",
+      "Change companion roles",
+      "Change companion ages",
+      "Daily companion messages",
+      "Voice typing",
+      "Full memory features",
+      "Bond, XP, and level system"
+    ];
+  } else if (plan === "Premium") {
+    features = [
+      "₹1999/month Premium Plan",
+      "Unlimited messages",
+      "All roles unlocked",
+      "Unlimited role and age changes",
+      "Advanced memory",
+      "Voice typing",
+      "Future voice features",
+      "Priority updates"
+    ];
+  } else {
+    features = [
+      "Basic Plan",
+      "15 messages/day",
+      "Chat with Sri, Ranga, and Lasya",
+      "Fixed roles after trial",
+      "Limited memory features",
+      "Bond, XP, and level system",
+      "Upgrade to Premium for unlimited access"
+    ];
+  }
+
+  list.innerHTML = "";
+
+  features.forEach(function(feature) {
+    const li = document.createElement("li");
+    li.textContent = feature;
+    list.appendChild(li);
+  });
+}
+
+function loadProfile() {
+  fillAgeOptions("profileSriAge");
+  fillAgeOptions("profileRangaAge");
+  fillAgeOptions("profileLasyaAge");
+
+  const plan = getPlan();
+  const daysLeft = getDaysLeft();
+
+  document.getElementById("planStatus").textContent = plan;
+  document.getElementById("daysLeft").textContent = daysLeft;
+
+  showCurrentPlanFeatures(plan);
+
+  const canChangeSettings =
+    plan === "Premium Trial" || plan === "Premium";
+
+  document.getElementById("profileUsername").textContent =
+    localStorage.getItem("username") || "User";
+
+  document.getElementById("profileSriAge").value =
+    localStorage.getItem("sriAge") || "20";
+
+  document.getElementById("profileRangaAge").value =
+    localStorage.getItem("rangaAge") || "20";
+
+  document.getElementById("profileLasyaAge").value =
+    localStorage.getItem("lasyaAge") || "20";
+
+  document.getElementById("profileSriRole").value =
+    localStorage.getItem("sriRole") || "Friend";
+
+  document.getElementById("profileRangaRole").value =
+    localStorage.getItem("rangaRole") || "Friend";
+
+  document.getElementById("profileLasyaRole").value =
+    localStorage.getItem("lasyaRole") || "Friend";
+
+  document.getElementById("profileSriAge").disabled = !canChangeSettings;
+  document.getElementById("profileRangaAge").disabled = !canChangeSettings;
+  document.getElementById("profileLasyaAge").disabled = !canChangeSettings;
+
+  document.getElementById("profileSriRole").disabled = !canChangeSettings;
+  document.getElementById("profileRangaRole").disabled = !canChangeSettings;
+  document.getElementById("profileLasyaRole").disabled = !canChangeSettings;
+
+  document.getElementById("saveRolesBtn").disabled = !canChangeSettings;
+
+  document.getElementById("premiumRoleNote").textContent =
+    canChangeSettings
+      ? "Age and role changing is available in Premium / Premium Trial."
+      : "🔒 Age and role changing is a Premium feature. You are now on Basic Plan.";
+
+  showBond("sriBond", "sriBond");
+  showBond("rangaBond", "rangaBond");
+  showBond("lasyaBond", "lasyaBond");
+
+  showXP();
+
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "Dark") {
+    document.body.classList.add("dark-mode");
+  }
+}
+
+function saveProfileSettings() {
+  const plan = getPlan();
+
+  if (plan !== "Premium Trial" && plan !== "Premium") {
+    alert("🔒 Age and role changing is a Premium feature.");
+    return;
+  }
+
+  localStorage.setItem("sriAge", document.getElementById("profileSriAge").value);
+  localStorage.setItem("rangaAge", document.getElementById("profileRangaAge").value);
+  localStorage.setItem("lasyaAge", document.getElementById("profileLasyaAge").value);
+
+  localStorage.setItem("sriRole", document.getElementById("profileSriRole").value);
+  localStorage.setItem("rangaRole", document.getElementById("profileRangaRole").value);
+  localStorage.setItem("lasyaRole", document.getElementById("profileLasyaRole").value);
+
+  alert("Companion settings saved!");
+}
+
+function showXP(){
+  document.getElementById("sriLevel").textContent =
+    localStorage.getItem("sriLevel") || "1";
+
+  document.getElementById("sriXP").textContent =
+    (localStorage.getItem("sriXP") || "0") + " / 100";
+
+  document.getElementById("rangaLevel").textContent =
+    localStorage.getItem("rangaLevel") || "1";
+
+  document.getElementById("rangaXP").textContent =
+    (localStorage.getItem("rangaXP") || "0") + " / 100";
+
+  document.getElementById("lasyaLevel").textContent =
+    localStorage.getItem("lasyaLevel") || "1";
+
+  document.getElementById("lasyaXP").textContent =
+    (localStorage.getItem("lasyaXP") || "0") + " / 100";
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>

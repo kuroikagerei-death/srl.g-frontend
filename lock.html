@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRL.G Lock</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section class="login-section">
+  <div class="login-box">
+
+    <h2>SRL.G</h2>
+    <p id="lockText">Create your private app password.</p>
+
+    <input type="password" id="lockPassword" placeholder="Enter password">
+
+    <div id="securityBox">
+      <label>Security Question</label>
+      <select id="securityQuestion">
+        <option>What is your favorite companion name?</option>
+        <option>What is your dream project name?</option>
+        <option>What is your favorite word?</option>
+        <option>Who is your favourite person?</option>
+      </select>
+
+      <input type="text" id="securityAnswer" placeholder="Your answer">
+    </div>
+
+    <button onclick="handleLock()">Continue</button>
+
+    <p class="small-text" onclick="forgotPassword()" style="cursor:pointer;">
+      Forgot Password?
+    </p>
+
+  </div>
+</section>
+
+<script>
+const savedPassword = localStorage.getItem("appLockPassword");
+const savedQuestion = localStorage.getItem("appSecurityQuestion");
+const savedAnswer = localStorage.getItem("appSecurityAnswer");
+
+if (savedPassword) {
+  document.getElementById("lockText").textContent =
+    "Enter your private app password.";
+
+  document.getElementById("securityBox").style.display = "none";
+}
+
+function handleLock() {
+  const input = document.getElementById("lockPassword").value.trim();
+  const password = localStorage.getItem("appLockPassword");
+
+  if (!input) {
+    alert("Please enter a password.");
+    return;
+  }
+
+  if (!password) {
+    const question = document.getElementById("securityQuestion").value;
+    const answer = document.getElementById("securityAnswer").value.trim().toLowerCase();
+
+    if (!answer) {
+      alert("Please enter security answer.");
+      return;
+    }
+
+    localStorage.setItem("appLockPassword", input);
+    localStorage.setItem("appSecurityQuestion", question);
+    localStorage.setItem("appSecurityAnswer", answer);
+
+    sessionStorage.setItem("appUnlocked", "true");
+
+    alert("App lock created!");
+    window.location.href = "index.html";
+    return;
+  }
+
+  if (input === password) {
+    sessionStorage.setItem("appUnlocked", "true");
+    window.location.href = "index.html";
+  } else {
+    alert("Wrong password.");
+  }
+}
+
+function forgotPassword() {
+  const password = localStorage.getItem("appLockPassword");
+  const question = localStorage.getItem("appSecurityQuestion");
+  const answer = localStorage.getItem("appSecurityAnswer");
+
+  if (!password || !question || !answer) {
+    alert("No recovery question found. Create app lock first.");
+    return;
+  }
+
+  const userAnswer = prompt(question);
+
+  if (!userAnswer) {
+    return;
+  }
+
+  if (userAnswer.trim().toLowerCase() === answer) {
+    const newPassword = prompt("Enter new password:");
+
+    if (!newPassword) {
+      alert("Password was not changed.");
+      return;
+    }
+
+    localStorage.setItem("appLockPassword", newPassword.trim());
+    sessionStorage.removeItem("appUnlocked");
+
+    alert("Password changed successfully. Please login again.");
+    location.reload();
+  } else {
+    alert("Wrong security answer.");
+  }
+}
+</script>
+
+</body>
+</html>

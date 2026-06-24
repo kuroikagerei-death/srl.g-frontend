@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<section class="login-section">
+  <div class="login-box">
+    <h2>Welcome Back</h2>
+    <p>Login to continue your SRL.G experience.</p>
+
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+
+    <button onclick="loginUser()">Login</button>
+
+    <p class="small-text">New to SRL.G?</p>
+    <a href="signup.html">
+      <button>Create Account</button>
+    </a>
+
+    <p class="age-note">16+ verified users only.</p>
+    <p class="age-note">
+      All characters are fictional AI companions and are not intended to represent any real person.
+    </p>
+  </div>
+</section>
+
+<script src="plan.js"></script>
+
+<script>
+function loginUser() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const savedEmail = localStorage.getItem("email");
+  const savedPassword = localStorage.getItem("password");
+
+  if (!email || !password) {
+    alert("Please enter email and password.");
+    return;
+  }
+
+  if (email === savedEmail && password === savedPassword) {
+    localStorage.setItem("isLoggedIn", "true");
+    alert("Login successful!");
+    window.location.href = "profile.html";
+  } else {
+    alert("Invalid email or password.");
+  }
+}
+const savedTheme = localStorage.getItem("theme");
+ if(savedTheme === "Dark"){ document.body.classList.add("dark-mode");
+}
+
+</script>
+
+</body>
+</html>

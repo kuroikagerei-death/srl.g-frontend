@@ -1,0 +1,1281 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, Arial, sans-serif;
+}
+
+:root {
+  --sri: #ff7eb6;
+  --sri-dark: #e94b8c;
+  --ranga: #6ec6ff;
+  --ranga-dark: #2196f3;
+  --lasya: #b794f6;
+  --lasya-dark: #7c3aed;
+
+  --primary: #ff7eb6;
+  --primary-dark: #e94b8c;
+
+  --bg: #ffffff;
+  --bg-soft: #fff7fb;
+  --card: rgba(255, 255, 255, 0.92);
+  --text: #25222a;
+  --muted: #6f6875;
+  --border: rgba(255, 126, 182, 0.28);
+  --shadow: 0 18px 45px rgba(255, 126, 182, 0.16);
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(255, 126, 182, 0.12), transparent 35%),
+    radial-gradient(circle at top right, rgba(110, 198, 255, 0.10), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #fff7fb 55%, #ffffff 100%);
+  color: var(--text);
+  padding-bottom: 20px;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* NAVBAR */
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h1 {
+  color: var(--primary);
+  font-size: 30px;
+  font-weight: 900;
+}
+
+nav div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.login-btn,
+.active-chat {
+  background: linear-gradient(135deg, var(--primary), var(--lasya));
+  color: white !important;
+  padding: 9px 16px;
+  border-radius: 999px;
+}
+
+/* COMMON */
+
+section {
+  padding: 55px 7%;
+  text-align: center;
+}
+
+section h2 {
+  color: var(--primary);
+  font-size: 34px;
+  margin-bottom: 20px;
+}
+
+button {
+  border: none;
+  outline: none;
+  background: linear-gradient(135deg, var(--primary), var(--lasya));
+  color: white;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+  margin: 6px;
+  box-shadow: 0 12px 26px rgba(255, 126, 182, 0.25);
+  transition: 0.25s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* HERO */
+
+.hero {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    radial-gradient(circle at top left, rgba(255, 126, 182, 0.22), transparent 35%),
+    radial-gradient(circle at top right, rgba(183, 148, 246, 0.22), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #fff7fb 100%);
+}
+
+.hero h2 {
+  font-size: 52px;
+  line-height: 1.05;
+  color: var(--text);
+}
+
+.hero p {
+  max-width: 680px;
+  margin: 0 auto 22px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* GENERAL CARDS */
+
+.cards,
+.companion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.card,
+.companion-card,
+.profile-card,
+.login-box,
+.role-card {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.card img,
+.companion-card img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 3px solid var(--primary);
+  margin-bottom: 14px;
+}
+
+.card h3,
+.companion-card h3 {
+  color: var(--primary);
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.card p,
+.companion-card p {
+  color: var(--muted);
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.premium {
+  background: linear-gradient(145deg, #ffffff, #f7f0ff);
+  border: 2px solid var(--lasya);
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--lasya));
+  color: white;
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+/* LOGIN / SIGNUP / SETTINGS */
+
+.login-section {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(255, 126, 182, 0.22), transparent 35%),
+    radial-gradient(circle at top right, rgba(110, 198, 255, 0.18), transparent 35%),
+    #ffffff;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.login-box h2 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.login-box input,
+.login-box select,
+.role-card select,
+.companion-details select {
+  width: 100%;
+  padding: 13px;
+  margin: 10px 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  outline: none;
+  background: white;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.login-box label {
+  display: block;
+  text-align: left;
+  margin-top: 12px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.small-text,
+.age-note {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 14px;
+}
+
+/* PROFILE PAGE */
+
+.game-profile {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(255, 126, 182, 0.2), transparent 35%),
+    radial-gradient(circle at top right, rgba(183, 148, 246, 0.18), transparent 35%),
+    #ffffff;
+}
+
+.profile-card {
+  max-width: 620px;
+  margin: 0 auto 28px;
+}
+
+.rank {
+  color: var(--primary);
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.profile-info {
+  background: rgba(255, 247, 251, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 16px;
+  margin: 14px 0;
+  text-align: left;
+}
+
+.profile-info p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+#currentPlanFeatures {
+  list-style-position: inside;
+  padding-left: 0;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+#currentPlanFeatures li {
+  text-align: left;
+}
+
+.team-title {
+  margin-top: 30px;
+}
+
+.companion-details {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.companion-details p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 126, 182, 0.25);
+  padding: 11px 0;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.companion-details strong {
+  color: var(--primary-dark);
+}
+
+.companion-details span {
+  color: var(--text);
+  text-align: right;
+}
+
+.companion-details select {
+  max-width: 170px;
+  margin: 0;
+}
+
+/* ROLES */
+
+.roles-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(255, 126, 182, 0.22), transparent 35%),
+    radial-gradient(circle at top right, rgba(183, 148, 246, 0.2), transparent 35%),
+    #ffffff;
+}
+
+.role-card {
+  max-width: 420px;
+  margin: 16px auto;
+}
+
+.role-card h3 {
+  color: var(--primary);
+  font-size: 24px;
+}
+
+/* CHAT */
+
+.chat-v2 {
+  width: min(920px, calc(100% - 24px));
+  height: calc(100vh - 105px);
+  margin: 18px auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.chat-v2-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  color: white;
+  text-align: left;
+  background: linear-gradient(135deg, var(--primary), var(--lasya));
+}
+
+.chat-v2-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+}
+
+.chat-v2-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 26px;
+}
+
+.chat-v2-header p {
+  color: white;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.delete-chat-top {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  font-size: 22px;
+  padding: 5px;
+  margin-left: auto;
+}
+
+.chat-v2-box {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+  background: #fff7fb;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message,
+.sri-message,
+.ranga-message,
+.lasya-message,
+.user-message {
+  max-width: 78%;
+  width: fit-content;
+  padding: 13px 16px;
+  border-radius: 18px;
+  line-height: 1.45;
+  font-size: 15px;
+  word-wrap: break-word;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.07);
+}
+
+.sri-message,
+.ranga-message,
+.lasya-message {
+  background: white;
+  color: var(--text);
+  border-bottom-left-radius: 5px;
+}
+
+.user-message {
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+}
+
+#typing {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.chat-v2-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: white;
+  border-top: 1px solid var(--border);
+}
+
+.chat-v2-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  outline: none;
+  font-size: 15px;
+}
+
+.chat-v2-input button {
+  margin: 0;
+  padding: 12px 16px;
+}
+
+/* CHAT COLORS */
+
+.sri-message {
+  border: 1px solid rgba(255, 126, 182, 0.25);
+}
+
+.ranga-message {
+  border: 1px solid rgba(110, 198, 255, 0.3);
+}
+
+.lasya-message {
+  border: 1px solid rgba(183, 148, 246, 0.3);
+}
+
+body:has(.sri-message) .chat-v2-header,
+body:has(.sri-message) .user-message {
+  background: linear-gradient(135deg, var(--sri), var(--sri-dark));
+}
+
+body:has(.ranga-message) .chat-v2-header,
+body:has(.ranga-message) .user-message {
+  background: linear-gradient(135deg, var(--ranga), var(--ranga-dark));
+}
+
+body:has(.lasya-message) .chat-v2-header,
+body:has(.lasya-message) .user-message {
+  background: linear-gradient(135deg, var(--lasya), var(--lasya-dark));
+}
+
+/* APP HOME / COMPANIONS */
+
+.app-home {
+  min-height: 100vh;
+  padding: 22px 16px 95px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 126, 182, 0.2), transparent 35%),
+    radial-gradient(circle at top right, rgba(110, 198, 255, 0.16), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #fff7fb 60%, #ffffff 100%);
+  text-align: left;
+}
+
+.app-hero-card {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 34px;
+  padding: 28px 22px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.app-hero-card h1 {
+  color: var(--primary);
+  font-size: 46px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.app-tagline {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.app-subtext {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto 18px;
+}
+
+.section-title {
+  color: var(--primary);
+  font-size: 24px;
+  margin: 18px 0 14px;
+  text-align: left;
+}
+
+.app-companion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.app-companion-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+  transition: 0.25s;
+}
+
+.app-companion-card:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+.app-companion-card img {
+  width: 180px;
+  height: 180px;
+  border-radius: 22px;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+}
+
+.app-companion-card h3 {
+  color: var(--primary);
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.app-companion-card p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.app-companion-card span {
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.app-premium-banner,
+.app-info-card {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-top: 18px;
+}
+
+.app-premium-banner {
+  background: linear-gradient(145deg, #ffffff, #f7f0ff);
+  border: 2px solid var(--lasya);
+  text-align: center;
+}
+
+.app-premium-banner span {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--lasya));
+  color: white;
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.app-premium-banner h3,
+.app-info-card h3 {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.app-premium-banner p,
+.app-info-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.card-arrow {
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+/* COMPANION PROFILE PAGES */
+
+.companion-profile-page {
+  min-height: 100vh;
+  padding: 45px 7% 105px;
+  background:
+    radial-gradient(circle at top left, rgba(255,126,182,0.18), transparent 35%),
+    radial-gradient(circle at top right, rgba(183,148,246,0.16), transparent 35%),
+    linear-gradient(180deg,#ffffff,#fff7fb);
+}
+
+.companion-profile-card {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.companion-profile-left,
+.companion-profile-right,
+.companion-status-card,
+.mini-stat {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  box-shadow: var(--shadow);
+}
+
+.companion-profile-left {
+  text-align: center;
+  padding: 28px;
+}
+
+.companion-profile-left h2 {
+  color: var(--primary);
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.companion-profile-right {
+  padding: 24px;
+  min-width: 0;
+}
+
+.companion-tagline {
+  color: var(--muted);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.character-profile-img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 30px;
+  border: 3px solid var(--primary);
+  display: block;
+  margin: 0 auto 18px;
+}
+
+.companion-status-card {
+  padding: 20px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.companion-status-card h3 {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.companion-status-card p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.companion-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.mini-stat {
+  padding: 18px;
+  text-align: center;
+}
+
+.mini-stat span {
+  font-size: 26px;
+}
+
+.mini-stat h4 {
+  color: var(--muted);
+  margin: 6px 0;
+}
+
+.mini-stat p {
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(18px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 9999;
+}
+
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 20px;
+  color: #77707a;
+  font-weight: 800;
+}
+
+.bottom-nav span {
+  font-size: 11px;
+}
+
+.bottom-active {
+  color: var(--primary) !important;
+}
+
+/* FOOTER */
+
+footer {
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+  margin: 25px auto 95px;
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+/* DARK MODE */
+
+body.dark-mode {
+  --bg: #15111a;
+  --card: #211a28;
+  --text: #ffffff;
+  --muted: #d8c8e6;
+  --border: rgba(183, 148, 246, 0.28);
+  background: #15111a !important;
+  color: white !important;
+}
+
+body.dark-mode nav {
+  background: rgba(21,17,26,0.92) !important;
+}
+
+body.dark-mode nav a {
+  color: white !important;
+}
+
+body.dark-mode section,
+body.dark-mode .hero,
+body.dark-mode .login-section,
+body.dark-mode .game-profile,
+body.dark-mode .roles-page,
+body.dark-mode .app-home,
+body.dark-mode .companion-profile-page {
+  background:
+    radial-gradient(circle at top left, rgba(255, 126, 182, 0.12), transparent 35%),
+    radial-gradient(circle at top right, rgba(110, 198, 255, 0.1), transparent 35%),
+    #15111a !important;
+  color: white !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .profile-card,
+body.dark-mode .login-box,
+body.dark-mode .companion-card,
+body.dark-mode .role-card,
+body.dark-mode .app-hero-card,
+body.dark-mode .app-companion-card,
+body.dark-mode .app-info-card,
+body.dark-mode .app-premium-banner,
+body.dark-mode .companion-profile-left,
+body.dark-mode .companion-profile-right,
+body.dark-mode .companion-status-card,
+body.dark-mode .mini-stat {
+  background: rgba(33, 26, 40, 0.92) !important;
+  color: white !important;
+}
+
+body.dark-mode .premium {
+  background: rgba(33, 26, 40, 0.92) !important;
+  border: 2px solid var(--lasya);
+}
+
+body.dark-mode .profile-info {
+  background: rgba(44, 35, 53, 0.95) !important;
+  color: white !important;
+}
+
+body.dark-mode input,
+body.dark-mode select {
+  background: #2b2233 !important;
+  color: white !important;
+  border-color: var(--lasya) !important;
+}
+
+body.dark-mode .chat-v2 {
+  background: #211a28 !important;
+}
+
+body.dark-mode .chat-v2-box {
+  background: #15111a !important;
+}
+
+body.dark-mode .chat-v2-input {
+  background: #211a28 !important;
+}
+
+body.dark-mode .sri-message,
+body.dark-mode .ranga-message,
+body.dark-mode .lasya-message {
+  background: #2b2233 !important;
+  color: #fff4fb !important;
+  border: 1px solid var(--border);
+}
+
+body.dark-mode .bottom-nav {
+  background: rgba(33, 26, 40, 0.95) !important;
+}
+
+body.dark-mode .bottom-nav a {
+  color: #d8c8e6 !important;
+}
+
+body.dark-mode .bottom-active {
+  color: var(--primary) !important;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode li,
+body.dark-mode footer,
+body.dark-mode #currentPlanFeatures,
+body.dark-mode #currentPlanFeatures li,
+body.dark-mode .companion-details p,
+body.dark-mode .companion-details span,
+body.dark-mode .mini-stat p {
+  color: white !important;
+}
+
+body.dark-mode nav h1,
+body.dark-mode .app-hero-card h1,
+body.dark-mode .section-title,
+body.dark-mode .card h3,
+body.dark-mode .companion-card h3,
+body.dark-mode .app-companion-card h3,
+body.dark-mode .profile-card h2,
+body.dark-mode .login-box h2,
+body.dark-mode .companion-profile-left h2,
+body.dark-mode .companion-status-card h3 {
+  color: var(--primary) !important;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  nav {
+    padding: 12px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav h1 {
+    font-size: 26px;
+  }
+
+  nav div {
+    justify-content: center;
+    gap: 7px;
+  }
+
+  nav a {
+    font-size: 12px;
+    background: #fff7fb;
+    border: 1px solid var(--border);
+    padding: 7px 10px;
+    border-radius: 999px;
+  }
+
+  body.dark-mode nav a {
+    background: #211a28 !important;
+  }
+
+  section {
+    padding: 36px 14px;
+  }
+
+  section h2 {
+    font-size: 28px;
+    margin-bottom: 18px;
+  }
+
+  .hero {
+    min-height: 65vh;
+    padding-top: 45px;
+  }
+
+  .hero h2 {
+    font-size: 38px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .cards,
+  .companion-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card,
+  .companion-card,
+  .profile-card,
+  .login-box,
+  .role-card {
+    width: 100%;
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .card img,
+  .companion-card img {
+    width: 135px;
+    height: 135px;
+  }
+
+  .card h3,
+  .companion-card h3 {
+    font-size: 24px;
+  }
+
+  .companion-details p {
+    font-size: 14px;
+  }
+
+  .companion-details select {
+    max-width: 145px;
+    font-size: 12px;
+  }
+
+  .chat-v2 {
+    width: 100%;
+    height: calc(100vh - 125px);
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .chat-v2-header {
+    padding: 12px;
+  }
+
+  .chat-v2-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .chat-v2-header h2 {
+    font-size: 21px;
+  }
+
+  .chat-v2-header p {
+    font-size: 11px;
+  }
+
+  .chat-v2-box {
+    padding: 12px;
+  }
+
+  .message,
+  .sri-message,
+  .ranga-message,
+  .lasya-message,
+  .user-message {
+    max-width: 86%;
+    font-size: 14px;
+    padding: 11px 13px;
+  }
+
+  .chat-v2-input {
+    padding: 9px;
+    gap: 6px;
+  }
+
+  .chat-v2-input input {
+    font-size: 14px;
+    padding: 11px;
+  }
+
+  .chat-v2-input button {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  .character-profile-img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .companion-profile-page {
+    padding: 22px 14px 95px;
+  }
+
+  .companion-profile-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .companion-profile-left,
+  .companion-profile-right {
+    padding: 18px;
+  }
+
+  .companion-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mini-stat {
+    padding: 15px;
+  }
+}
+
+/* DESKTOP */
+
+@media (min-width: 1024px) {
+  .app-home {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 60px 40px 90px;
+  }
+
+  .app-hero-card {
+    padding: 55px;
+  }
+
+  .app-hero-card h1 {
+    font-size: 70px;
+  }
+
+  .app-tagline {
+    font-size: 32px;
+  }
+
+  .app-subtext {
+    font-size: 18px;
+  }
+
+  .app-companion-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .app-companion-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px;
+  }
+
+  .app-companion-card img {
+    width: 170px;
+    height: 170px;
+  }
+
+  .app-premium-banner,
+  .app-info-card {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bottom-nav {
+    max-width: 520px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 18px;
+    border-radius: 28px;
+    box-shadow: 0 12px 32px rgba(255,126,182,0.2);
+  }
+}
+/* ================= SRL.G FINAL MOBILE/LAYOUT FIX ================= */
+
+/* 1. LOGIN / SIGNUP EMPTY SPACE FIX */
+.login-section {
+  min-height: calc(100vh - 75px) !important;
+  padding: 28px 14px 90px !important;
+}
+
+.login-box {
+  margin: 0 auto !important;
+}
+
+/* 2. CHAT HEIGHT FIX */
+.chat-v2 {
+  height: calc(100vh - 92px) !important;
+  max-height: 850px !important;
+}
+
+.chat-v2-box {
+  min-height: 0 !important;
+}
+
+/* 3. COMPANION PAGE EMPTY SPACE FIX */
+.companion-profile-page {
+  min-height: calc(100vh - 75px) !important;
+  padding: 35px 7% 95px !important;
+}
+
+.companion-profile-card {
+  align-items: center !important;
+}
+
+/* 4. MOBILE NAVBAR FIX */
+@media (max-width: 768px) {
+  nav {
+    position: sticky !important;
+    top: 0 !important;
+    padding: 10px 12px !important;
+    flex-direction: row !important;
+  }
+
+  nav h1 {
+    font-size: 22px !important;
+  }
+
+  nav div {
+    gap: 6px !important;
+    justify-content: flex-end !important;
+  }
+
+  nav a {
+    font-size: 11px !important;
+    padding: 6px 8px !important;
+  }
+
+  .login-section {
+    min-height: calc(100vh - 60px) !important;
+    padding: 18px 14px 80px !important;
+    align-items: center !important;
+  }
+
+  .login-box {
+    max-width: 360px !important;
+    padding: 20px !important;
+  }
+
+  .chat-v2 {
+    width: 100% !important;
+    height: calc(100vh - 64px) !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .companion-profile-page {
+    min-height: auto !important;
+    padding: 22px 14px 95px !important;
+  }
+
+  .companion-profile-card {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .companion-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .bottom-nav {
+    height: 62px !important;
+  }
+}

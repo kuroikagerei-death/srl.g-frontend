@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="login.html" class="login-btn">Login</a>
+  </div>
+</nav>
+
+<section class="login-section">
+  <div class="login-box">
+    <h2>Create Account</h2>
+    <p>Join SRL.G as a verified 16+ user.</p>
+
+    <input type="text" id="username" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="date" id="dob">
+    <input type="password" id="password" placeholder="Password">
+    <p class="age-note">
+    You must be 16 years or older to use SRL.G.
+    By creating an account, you confirm that you meet the age requirement.
+    </p>
+    <button onclick="createAccount()">Create Account</button>
+
+    <p class="age-note">You must be 16+ to use SRL.G.</p>
+  </div>
+</section>
+
+<p class="age-note">
+  All characters are fictional AI companions and are not intended to represent any real person.
+</p>
+
+<script src="plan.js"></script>
+
+<script>
+function calculateAge(dobValue) {
+  const dob = new Date(dobValue);
+  const today = new Date();
+
+  let age = today.getFullYear() - dob.getFullYear();
+  const monthDiff = today.getMonth() - dob.getMonth();
+
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < dob.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
+
+function createAccount() {
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const dob = document.getElementById("dob").value;
+  const password = document.getElementById("password").value;
+
+  if (!username || !email || !dob || !password) {
+    alert("Please fill all details.");
+    return;
+  }
+
+  const age = calculateAge(dob);
+
+  if (age < 16) {
+    alert("SRL.G is only for users aged 16 and above.");
+    return;
+  }
+
+  localStorage.setItem("username", username);
+  localStorage.setItem("email", email);
+  localStorage.setItem("password", password);
+  localStorage.setItem("dob", dob);
+  localStorage.setItem("userAge", age);
+  localStorage.setItem("isLoggedIn", "true");
+
+  localStorage.setItem("trialStart", Date.now());
+  localStorage.setItem("plan", "Premium Trial");
+  localStorage.setItem("daysLeft", "7");
+
+  if (!localStorage.getItem("sriAge")) localStorage.setItem("sriAge", "20");
+  if (!localStorage.getItem("rangaAge")) localStorage.setItem("rangaAge", "20");
+  if (!localStorage.getItem("lasyaAge")) localStorage.setItem("lasyaAge", "20");
+
+  if (!localStorage.getItem("sriRole")) localStorage.setItem("sriRole", "Friend");
+  if (!localStorage.getItem("rangaRole")) localStorage.setItem("rangaRole", "Friend");
+  if (!localStorage.getItem("lasyaRole")) localStorage.setItem("lasyaRole", "Friend");
+
+  alert("Account created! 7-Day Premium Trial activated.");
+  window.location.href = "roles.html";
+}
+</script>
+<script>
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "Dark") {
+  document.body.classList.add("dark-mode");
+}
+</script>
+
+</body>
+</html>

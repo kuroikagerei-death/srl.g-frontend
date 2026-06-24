@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lasya - SRL.G</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="companions.html">Companions</a>
+    <a href="profile.html">Profile</a>
+  </div>
+</nav>
+
+<section class="companion-profile-page">
+
+  <div class="companion-profile-card">
+
+    <div class="companion-profile-left">
+      <img src="images/lasya.png" class="character-profile-img" alt="Lasya">
+
+      <h2>Lasya</h2>
+      <p class="companion-tagline">Calm • Elegant • Thoughtful</p>
+
+      <a href="chat-lasya.html">
+        <button>Chat with Lasya</button>
+      </a>
+    </div>
+
+    <div class="companion-profile-right">
+
+      <div class="companion-status-card">
+        <h3>About Lasya</h3>
+        <p>
+          Calm thoughts, meaningful conversations,
+          and a peaceful presence when you need clarity.
+        </p>
+      </div>
+
+      <div class="companion-stats-grid">
+
+        <div class="mini-stat">
+          <span>🎂</span>
+          <h4>Age</h4>
+          <p id="companionAge">20</p>
+        </div>
+
+        <div class="mini-stat">
+          <span>🎭</span>
+          <h4>Role</h4>
+          <p id="companionRole">Friend</p>
+        </div>
+
+        <div class="mini-stat">
+          <span>❤️</span>
+          <h4>Bond</h4>
+          <p id="companionBond">0</p>
+        </div>
+
+        <div class="mini-stat">
+          <span>⭐</span>
+          <h4>Level</h4>
+          <p id="companionLevel">1</p>
+        </div>
+
+        <div class="mini-stat">
+          <span>⚡</span>
+          <h4>XP</h4>
+          <p><span id="companionXP">0</span> / 100</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<div class="bottom-nav">
+  <a href="index.html">🏠<span>Home</span></a>
+  <a href="profile.html">👤<span>Profile</span></a>
+  <a href="settings.html">⚙️<span>Settings</span></a>
+</div>
+
+<script>
+if (localStorage.getItem("theme") === "Dark") {
+  document.body.classList.add("dark-mode");
+}
+
+document.getElementById("companionAge").textContent =
+  localStorage.getItem("lasyaAge") || "20";
+
+document.getElementById("companionRole").textContent =
+  localStorage.getItem("lasyaRole") || "Friend";
+
+document.getElementById("companionBond").textContent =
+  localStorage.getItem("lasyaBond") || "0";
+
+document.getElementById("companionLevel").textContent =
+  localStorage.getItem("lasyaLevel") || "1";
+
+document.getElementById("companionXP").textContent =
+  localStorage.getItem("lasyaXP") || "0";
+</script>
+
+</body>
+</html>

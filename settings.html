@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - SRL.G</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav>
+  <h1>SRL.G</h1>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="premium.html">Premium</a>
+    <a href="chat-sri.html">Sri</a>
+    <a href="chat-ranga.html">Ranga</a>
+    <a href="chat-lasya.html">Lasya</a>
+  </div>
+</nav>
+
+<section class="login-section">
+  <div class="login-box">
+
+    <h2>Settings</h2>
+
+    <label>Language</label>
+    <select id="language">
+      <option>English</option>
+      <option>Telugu</option>
+    </select>
+
+    <label>Theme</label>
+    <select id="theme">
+      <option>Light</option>
+      <option>Dark</option>
+    </select>
+
+    <label>Notifications</label>
+    <select id="notifications">
+      <option>On</option>
+      <option>Off</option>
+    </select>
+
+    <label>Daily Companion Messages</label>
+    <select id="dailyMessages">
+      <option>On</option>
+      <option>Off</option>
+    </select>
+
+    <button onclick="saveAppSettings()">Save Settings</button>
+
+    <a href="premium.html">
+      <button type="button">Upgrade Plan</button>
+    </a>
+
+    <button onclick="logoutUser()" type="button" class="logout-btn">
+      Logout
+    </button>
+
+  </div>
+</section>
+
+<script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+function saveAppSettings() {
+  localStorage.setItem("language", document.getElementById("language").value);
+  localStorage.setItem("theme", document.getElementById("theme").value);
+  localStorage.setItem("notifications", document.getElementById("notifications").value);
+  localStorage.setItem("dailyMessages", document.getElementById("dailyMessages").value);
+
+  alert("Settings Saved!");
+  location.reload();
+}
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  alert("Logged out successfully!");
+  sessionStorage.removeItem("appUnlocked");
+  window.location.href = "lock.html";
+}
+
+window.onload = function() {
+  document.getElementById("language").value =
+    localStorage.getItem("language") || "English";
+
+  document.getElementById("theme").value =
+    localStorage.getItem("theme") || "Light";
+
+  document.getElementById("notifications").value =
+    localStorage.getItem("notifications") || "On";
+
+  document.getElementById("dailyMessages").value =
+    localStorage.getItem("dailyMessages") || "On";
+}
+</script>
+<script>
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "Dark") {
+  document.body.classList.add("dark-mode");
+}
+</script>
+
+</body>
+</html>
